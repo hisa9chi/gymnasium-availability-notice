@@ -1,6 +1,9 @@
 ---
+# headless mode の有効/無効 = true/false
+headless_on: <%= ENV['HEADLESS_ON'] %>
+
 # 当月を含め何ヶ月分確認するか
 check_month: 2
 
 # LINE Notify 用のトークン
-line_notify_token: ''
+line_notify_token: <%= ENV['LINE_NOTIFY_TOKEN'] %>

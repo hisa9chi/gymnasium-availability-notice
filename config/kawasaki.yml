@@ -2,8 +2,8 @@
 login_url: "https://www.fureai-net.city.kawasaki.jp/web/index.jsp"
 
 user:
-  id: ''
-  pass: ''
+  id: <%= ENV['KAWASAKI_USER_ID'] %>
+  pass: <%= ENV['KAWASAKI_USER_PASS'] %>
 
 gym:
   # 平日夜間 + 休日全日程 チェック対象

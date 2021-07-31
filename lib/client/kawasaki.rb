@@ -1,6 +1,7 @@
 require 'date'
 
 require './lib/util/output'
+require './lib/util/notify'
 require './lib/pages/kawasaki/login'
 require './lib/pages/kawasaki/resavation/floor'
 
@@ -16,11 +17,22 @@ module Lib
 
       # 川崎で申込可能な体育館の空きをチェック
       def check_availability_gym
+        puts "#- 川崎 ---------------"
         # ログイン
         top_menu_page = login
         available_gym_list = check_gym( top_menu_page )
 
-        Util::Output.json_file( "kawasaki", {"gyms" => available_gym_list} ) unless available_gym_list.empty?
+        unless available_gym_list.empty?
+          kawasaki_gyms = {"gyms" => available_gym_list}
+
+          # ファイル出力
+          Util::Output.json_file( "kawasaki", kawasaki_gyms )
+          # LINE 通知
+          notify = Util::Notify.new
+          message = notify.create_notify_message( "川崎", kawasaki_gyms )
+          notify.send_line( @config.line_notify_token, message )
+        end
+        puts "#---------------------"
       end
 
       # 会員ページへログイン
