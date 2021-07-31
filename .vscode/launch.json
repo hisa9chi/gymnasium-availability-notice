@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": "Debug Local File",
+          "type": "Ruby",
+          "request": "launch",
+          "program": "${workspaceRoot}/script.rb",
+          "useBundler": true,
+          "env": {
+            "HEADLESS_ON": false,
+            "KAWASAKI_USER_ID": "",
+            "KAWASAKI_USER_PASS": "",
+            "LINE_NOTIFY_TOKEN": ""
+          }
+      }
+  ]
+}

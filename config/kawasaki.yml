@@ -1,0 +1,21 @@
+---
+login_url: "https://www.fureai-net.city.kawasaki.jp/web/index.jsp"
+
+user:
+  id: <%= ENV['KAWASAKI_USER_ID'] %>
+  pass: <%= ENV['KAWASAKI_USER_PASS'] %>
+
+gym:
+  # 平日夜間 + 休日全日程 チェック対象
+  all_day:
+    - '幸スポーツセンター'
+    - 'カルッツかわさき'
+    - 'とどろきアリーナ'
+  # 休日全日程 チェック対象
+  day_off:
+    - '川崎市民プラザ'
+    - '川崎マリエン'
+    - '高津スポーツセンター'
+    - '宮前スポーツセンター'
+    - '麻生スポーツセンター'
+    - '川崎市多摩スポーツセンター'
