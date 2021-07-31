@@ -6,11 +6,11 @@ module Pages
     module Reservation
       class Floor < Pages::Page
         
-        def getAllLinkElement
-          findElementByPartialLinkText( 'すべて' )
+        def get_all_link_element
+          find_element_by_partial_link_text( 'すべて' )
         end
 
-        def getAllLinkPresent?
+        def get_all_link_present?
           @driver.manage.timeouts.implicit_wait = 0
           @driver.find_element(:partial_link_text, 'すべて' )
           true
@@ -18,8 +18,8 @@ module Pages
           false
         end
 
-        def clickAllLink
-          getAllLinkElement.click
+        def click_all_link
+          get_all_link_element.click
           Pages::Kawasaki::Reservation::Calender.new( @driver, @wait )
         end
 

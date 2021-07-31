@@ -1,130 +1,128 @@
+require 'date'
+
+require './lib/util/output'
 require './lib/pages/kawasaki/login'
 require './lib/pages/kawasaki/resavation/floor'
 
 module Lib
   module Client
     class Kawasaki
-      # 川崎市の体育館空き情報を格納
-      @kawasakiGyms = []
 
-      def initialize( driver, wait, cmnConf, indivConf )
+      def initialize( driver, wait, config )
         @driver = driver
         @wait = wait
-        @cmnConf = cmnConf
-        @indivConf = indivConf
+        @config = config
       end
 
       # 川崎で申込可能な体育館の空きをチェック
-      def checkAvailabilityGym
+      def check_availability_gym
         # ログイン
-        topMenuPage = login
-        # 平日・休日の確認対象体育館のチェック
-        topMenuPage = checkGym( topMenuPage, 0 )
-        # 休日のみの確認対象体育館のチェック
-        topMenuPage = checkGym( topMenuPage, 1 )
+        top_menu_page = login
+        available_gym_list = check_gym( top_menu_page )
+
+        Util::Output.json_file( "kawasaki", {"gyms" => available_gym_list} ) unless available_gym_list.empty?
       end
 
       # 会員ページへログイン
       def login
-        @driver.navigate.to( @indivConf.login_url )
-        loginPage = Pages::Kawasaki::Login.new( @driver, @wait )
-        loginPage.login( @indivConf.user.id, @indivConf.user.pass )
+        @driver.navigate.to( @config.login_url )
+        login_page = Pages::Kawasaki::Login.new( @driver, @wait )
+        login_page.login( @config.user.id, @config.user.pass )
       end
 
       # 対象の体育館をチェックする
-      # type=0: 平日・休日チェック対象、type=1: 休日チェック対象 
-      def checkGym( topMenuPage, type )
-        case type
-        when 0 then
-          gymList = @indivConf.gym.all_day
-        when 1 then
-          gymList = @indivConf.gym.day_off
-        else
-          gymList = []
-        end
+      def check_gym( top_menu_page )
+        available_gym_list = []
+        gym_list = @config.gym.all_day.concat( @config.gym.day_off )
 
-        gymList.each do |gym|
-          puts gym
-          rsvGym = moveGymSelectList( topMenuPage )
-          rsvCalender = moveGymAvailabilityCalender( rsvGym, gym )
+        gym_list.each do |gym|
+          printf( "[%s]\n",  gym )
+          rsv_gym = move_gym_select_list( top_menu_page )
+          rsv_calender = move_gym_availability_calender( rsv_gym, gym )
 
           # フロアごとの空き情報を格納
           floors = []
 
           while true do
-            floorName = rsvCalender.getGymFloorName.gsub( gym, '' )
-            puts floorName
+            floor_name = rsv_calender.get_gym_floor_name.gsub( gym, '' )
+            printf( " - %s\n", floor_name )
 
             # 日毎の空きの確認
-            availables = checkFloor( rsvCalender, type )
+            availables = check_floor( rsv_calender )
 
-            # 空きが存在すればデータをpush
-            floors.push( {"name" => gymFloorName, "available" => availables} ) until availables.empty?
+            # 空きが存在すればデータをpush            
+            floors.push( {"name" => floor_name, "availables" => availables} ) unless availables.empty?
 
             # 次のフロアへ移動
-            if rsvCalender.checkNextFloorElement?
-              rsvCalender.clickNextFloor
+            if rsv_calender.check_next_floor_element?
+              rsv_calender.click_next_floor
             else
               break
             end
           end
 
           # その体育館に空きがあれば空き情報を push
-          @kawasakiGyms.push( {'gym' => {"name" => gym, "floor" => floors}} ) until floors.empty?
+          available_gym_list.push( {"name" => gym, "floors" => floors} ) unless floors.empty?
 
           # メニューのホーム画面をクリック
-          topMenuPage = rsvCalender.clickMenuHome
+          top_menu_page = rsv_calender.click_menu_home
         end
-        topMenuPage
+        available_gym_list
       end
 
       # 体育館のフロア単位で空きを確認する
-      def checkFloor(rsvCalender, type)
+      def check_floor( rsv_calender )
         # 空きの情報
         availables = []
 
         # 1月分の確認
-        @cmnConf.check_month.times do |i|
-          availabilityElements = getAvailableDay( rsvCalender )
-          availabilityElements.each do |element|
-            availables.push( {"day" => "#{rsvCalender.getYearMonth}#{element.text}", "class" => []} )
-            puts "#{rsvCalender.getYearMonth}#{element.text}"
+        @config.check_month.times do |i|
+          year_month = rsv_calender.get_year_month
+          available_elements = rsv_calender.get_available_days_elements
+          available_elements.each do |element|
+            date = Date.strptime( "#{year_month}#{element.text}", '%Y年%m月%d日' )
+            rsv_availability = rsv_calender.click_day( element )
+
+            classes = rsv_availability.get_available_class
+            unless classes.empty?
+              item = { "day" => date.strftime( "%Y-%m-%d" ), "classes" => classes }
+              printf( "    %s\n", item )
+              availables.push( item )
+            end
+
+            rsv_availability.click_return_button
           end
 
           # 翌月へ移動
-          rsvCalender.clickNextMonth if i < @cmnConf.check_month - 1
+          rsv_calender.click_next_month if i < @config.check_month - 1
         end
 
         # 当月まで戻す
-        (@cmnConf.check_month-1).times do |i|
-          rsvCalender.clickPreviousMonth
+        (@config.check_month-1).times do |i|
+          rsv_calender.click_previous_month
         end
 
         availables
       end
 
       # 体育館選択ページへ遷移
-      def moveGymSelectList( topMenuPage )
-        rsvMenu = topMenuPage.clickReservation
-        rsvClassification = rsvMenu.clickFromPurpose
-        rsvGame = rsvClassification.clickIndoorBallGame
-        rsvGame.clickBasketball
+      def move_gym_select_list( top_menu_page )
+        rsv_menu = top_menu_page.click_reservation
+        rsv_classification = rsv_menu.click_from_purpose
+        rsv_game = rsv_classification.click_indoor_ball_game
+        rsv_game.click_basketball
       end
 
       # 空き状況確認ページへの遷移
-      def moveGymAvailabilityCalender( rsvGym, target )
-        nextPage = rsvGym.clickTarget( target )
-        if nextPage.instance_of?( Pages::Kawasaki::Reservation::Floor )
-          nextPage = nextPage.clickAllLink
+      def move_gym_availability_calender( rsv_gym, target )
+        next_page = rsv_gym.click_target( target )
+        if next_page.instance_of?( Pages::Kawasaki::Reservation::Floor )
+          next_page = next_page.click_all_link
         end
-        nextPage
+        next_page
       end
 
-      # 空きがある日程を取得
-      def getAvailableDay( rsvCalender )
-        rsvCalender.getAvailableDaysElements
-      end
-
+      # driver を破棄
       def destroy
         @driver.quit
       end

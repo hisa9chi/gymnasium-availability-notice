@@ -9,44 +9,44 @@ module Pages
       @wait = wait
     end
 
-    def findElementById(id)
-      @wait.until { @driver.find_element(:id, id) }
+    def find_element_by_id( id )
+      @wait.until { @driver.find_element( :id, id ) }
     end
 
-    def findElementsById(id)
-      @wait.until { @driver.find_elements(:id, id) }
+    def find_elements_by_id( id )
+      @wait.until { @driver.find_elements( :id, id ) }
     end
 
-    def findElementByClass(class_name)
-      @wait.until { @driver.find_element(:class, class_name ) }
+    def find_element_by_class( class_name )
+      @wait.until { @driver.find_element( :class, class_name ) }
     end
 
-    def findElementsByClass(class_name)
-      @wait.until { @driver.find_elements(:class, class_name ) }
+    def find_elements_by_class( class_name )
+      @wait.until { @driver.find_elements( :class, class_name ) }
     end
 
-    def findElementByXpath(xpath)
-      @wait.until { @driver.find_element(:xpath, xpath) }
+    def find_element_by_xpath( xpath )
+      @wait.until { @driver.find_element( :xpath, xpath ) }
     end
 
-    def findElementsByXpath(xpath)
-      @wait.until { @driver.find_elements(:xpath, xpath) }
+    def find_elements_by_xpath( xpath )
+      @wait.until { @driver.find_elements( :xpath, xpath ) }
     end
 
-    def findElementByPartialLinkText(text)
-      @wait.until { @driver.find_element(:partial_link_text, text) }
+    def find_element_by_partial_link_text( text )
+      @wait.until { @driver.find_element( :partial_link_text, text ) }
     end
 
-    def findElementsByPartialLinkText(text)
-      @wait.until { @driver.find_elements(:partial_link_text, text) }
+    def find_elements_by_partial_link_text( text )
+      @wait.until { @driver.find_elements( :partial_link_text, text ) }
     end
 
-    def findElementByLink(link)
-      @wait.until { @driver.find_element(:link, link) }
+    def find_element_by_link( link )
+      @wait.until { @driver.find_element( :link, link ) }
     end
     
-    def findElementsByLink(link)
-      @wait.until { @driver.find_elements(:link, link) }
+    def find_elements_by_link( link )
+      @wait.until { @driver.find_elements( :link, link ) }
     end
     
   end # Page

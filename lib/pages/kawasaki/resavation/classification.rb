@@ -6,12 +6,12 @@ module Pages
     module Reservation
       class Classification < Pages::Page
         
-        def getIndoorBallGameElement
-          findElementByPartialLinkText( '屋内・球技' )
+        def get_indoor_ball_game_element
+          find_element_by_partial_link_text( '屋内・球技' )
         end
 
-        def clickIndoorBallGame
-          getIndoorBallGameElement.click
+        def click_indoor_ball_game
+          get_indoor_ball_game_element.click
           Pages::Kawasaki::Reservation::Game.new( @driver, @wait )
         end
 

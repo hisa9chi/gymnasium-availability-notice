@@ -6,12 +6,12 @@ module Pages
     module Reservation
       class Game < Pages::Page
         
-        def getBasketballElement
-          findElementByPartialLinkText( 'バスケットボール' )
+        def get_basketball_element
+          find_element_by_partial_link_text( 'バスケットボール' )
         end
 
-        def clickBasketball
-          getBasketballElement.click
+        def click_basketball
+          get_basketball_element.click
           Pages::Kawasaki::Reservation::Gym.new( @driver, @wait )
         end
 

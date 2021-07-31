@@ -6,19 +6,19 @@ module Pages
     module Reservation
       class Menu < Pages::Page
         
-        def getFromPurposeElement
-          element_list = findElementsByXpath( '//*[@id="select-func"]/ul/li[*]/input' )
+        def get_from_purpose_element
+          element_list = find_elements_by_xpath( '//*[@id="select-func"]/ul/li[*]/input' )
           element_list.each do |element|
-            if element.attribute('type') == 'submit'
-              if element.attribute('value') == '利用目的から'
+            if element.attribute( 'type' ) == 'submit'
+              if element.attribute( 'value' ) == '利用目的から'
                 return element
               end
             end
           end
         end
 
-        def clickFromPurpose
-          getFromPurposeElement.click
+        def click_from_purpose
+          get_from_purpose_element.click
           Pages::Kawasaki::Reservation::Classification.new( @driver, @wait )
         end
 

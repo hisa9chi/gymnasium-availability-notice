@@ -8,25 +8,25 @@ module Pages
     module Reservation
       class Gym < Pages::Page
         
-        def getAllElement
-          findElementByPartialLinkText( 'すべて' )
+        def get_all_element
+          find_element_by_partial_link_text( 'すべて' )
         end
 
-        def getTargetElement( taget )
-          findElementByPartialLinkText( taget )
+        def get_target_element( taget )
+          find_element_by_partial_link_text( taget )
         end
 
-        def clickAll
-          getAllElement.click
+        def click_all
+          get_all_element.click
           Pages::Kawasaki::Reservation::Floor.new( @driver, @wait )
         end
 
-        def clickTarget( target )
-          getTargetElement( target ).click
+        def click_target( target )
+          get_target_element( target ).click
           nextPage = Pages::Kawasaki::Reservation::Floor.new( @driver, @wait )
 
           # コートが1つのみの場合はフロア選択画面が出ないのでチェック
-          if !nextPage.getAllLinkPresent?
+          if !nextPage.get_all_link_present?
             nextPage = Pages::Kawasaki::Reservation::Calender.new( @driver, @wait )
           end
 
