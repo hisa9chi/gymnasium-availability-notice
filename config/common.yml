@@ -1,3 +1,6 @@
 ---
 # 当月を含め何ヶ月分確認するか
 check_month: 2
+
+# LINE Notify 用のトークン
+line_notify_token: ''
