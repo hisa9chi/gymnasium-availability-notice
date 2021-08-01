@@ -1,0 +1,34 @@
+version: 2.1
+
+jobs:
+  check_gyms:
+    docker:
+      - image: hisa9chi/ruby-chromedriver:2.7.4
+    steps:
+      - checkout
+      - run:
+          name: bundle install
+          command: |
+            bundle config set --local path 'vendor/bundle'
+            bundle config set --local without 'development' 
+            bundle install
+      - run:
+          name: Checkt Available Gyms
+          command: |
+            pwd
+            bundle exec ruby script.rb
+      - store_artifacts:
+          path: ./result/*.json
+
+workflows:
+  version: 2
+  check_gym_availables:
+    triggers:
+      - schedule:
+          cron: "0 0-15 * * *" # UTC ( JST = UTC+0900 9:00 - 24:00 )
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - check_gyms

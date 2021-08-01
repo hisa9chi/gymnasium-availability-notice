@@ -17,6 +17,7 @@ GEM
       rubyzip (>= 1.2.2)
 
 PLATFORMS
+  ruby
   x86_64-darwin-19
 
 DEPENDENCIES
@@ -28,4 +29,4 @@ DEPENDENCIES
   selenium-webdriver (~> 3.142.7)
 
 BUNDLED WITH
-   2.2.23
+   2.1.4

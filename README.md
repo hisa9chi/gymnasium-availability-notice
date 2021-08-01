@@ -2,7 +2,8 @@
 gymnasium availability notice [private]
 
 ```
-$ bundle config set path 'vendor/bundle' 
+$ bundle config set --local path 'vendor/bundle'
+$ bundle config set --local without 'development' 
 $ bundle install
 
 $ bundle exec ruby script.rb
