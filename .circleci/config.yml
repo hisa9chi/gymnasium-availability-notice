@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   check_gyms:
     docker:
-      - image: cimg/ruby:2.7.4-browsers
+      - image: hisa9chi/ruby-chromedriver:2.4.7
     steps:
       - checkout
       - run:
