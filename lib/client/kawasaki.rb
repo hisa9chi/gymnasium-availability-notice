@@ -90,10 +90,11 @@ module Lib
         # 1月分の確認
         @config.check_month.times do |i|
           year_month = rsv_calender.get_year_month
-          available_elements = rsv_calender.get_available_days_elements
-          available_elements.each do |element|
-            date = Date.strptime( "#{year_month}#{element.text}", '%Y年%m月%d日' )
-            rsv_availability = rsv_calender.click_day( element )
+          available_days_list = rsv_calender.get_available_days
+          
+          available_days_list.each do |day|
+            date = Date.strptime( "#{year_month}#{day}", '%Y年%m月%d日' )
+            rsv_availability = rsv_calender.click_day( day )
 
             classes = rsv_availability.get_available_class
             unless classes.empty?

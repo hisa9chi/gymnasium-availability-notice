@@ -92,7 +92,8 @@ module Pages
           end
         end
         
-        def get_available_days_elements
+        # 空きがある日付の一覧を取得
+        def get_available_days
           available_day_list = []
           year_month = get_year_month
 
@@ -101,11 +102,21 @@ module Pages
             if element.text.match( /\d+日/ )
               state = element.find_element( :tag_name, 'img' ).attribute( 'alt' )
               if state == "全て空き" || state == "#{year_month}#{element.text}一部空き"
-                available_day_list.push( element )
+                available_day_list.push( element.text )
               end
             end
           end
           available_day_list
+        end
+
+        # 日付の要素を取得
+        def get_day_element( day )
+          element_list = find_elements_by_xpath( '//*[@id="rsvmonth3"]/table/tbody/tr[*]/td' )
+          element_list.each do |element|
+            if element.text.match( day )
+              return element
+            end
+          end
         end
 
         def click_reservation
@@ -138,8 +149,8 @@ module Pages
           get_next_month_element.click
         end
 
-        def click_day( day_element )
-          day_element.click
+        def click_day( day )
+          get_day_element( day ).click
           Pages::Kawasaki::Reservation::Availability.new( @driver, @wait )
         end
 
