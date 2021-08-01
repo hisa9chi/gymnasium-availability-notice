@@ -25,7 +25,7 @@ workflows:
   check_gym_availables:
     triggers:
       - schedule:
-          cron: "0 0-15 * * *" # UTC ( JST = UTC+0900 9:00 - 24:00 )
+          cron: "30 0-14 * * *" # UTC ( JST = UTC+0900 9:30 - 23:30 )
           filters:
             branches:
               only:
