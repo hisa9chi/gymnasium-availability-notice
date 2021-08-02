@@ -4,6 +4,7 @@ jobs:
   check_gyms:
     docker:
       - image: hisa9chi/ruby-chromedriver:2.7.4
+    resource_class: small
     steps:
       - checkout
       - run:
