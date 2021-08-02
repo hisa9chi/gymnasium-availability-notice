@@ -16,7 +16,6 @@
 ## Execution
 ```
 $ bundle config set --local path 'vendor/bundle'
-$ bundle config set --local without 'development' 
 $ bundle install
 
 # export で事前に環境変数を設定している場合
