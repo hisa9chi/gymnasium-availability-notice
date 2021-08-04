@@ -15,9 +15,7 @@ jobs:
             bundle install
       - run:
           name: Checkt Available Gyms
-          command: |
-            pwd
-            bundle exec ruby script.rb
+          command: bundle exec ruby script.rb
       - store_artifacts:
           path: ./result
 
