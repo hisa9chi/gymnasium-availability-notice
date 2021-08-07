@@ -24,3 +24,10 @@ $ bundle exec ruby script.rb
 # 環境変数を実行時に指定する場合
 $ HEADLESS_ON=false LINE_NOTIFY_TOKEN='xxxx' KAWASAKI_USER_ID='yyyy' KAWASAKI_USER_PASS='zzzzz' bundle exec ruby script.rb
 ```
+
+## Setting
+- [common.yml](./config/common.yml) 体育館の空き状況確認の共通設定
+  - check_month: 何ヶ月分チェックするかを数値で指定  ※当月含む
+- [kawasaki.yml](./config/kawasaki.yml) 川崎の体育館の設定
+  - gym.all_day: ここに記載した体育館は平日の夜間と土日祝日の全日程を通知対象とする
+  - gym.day_off: ここに記載した体育館は土日祝日の全日程を通知対象とする
