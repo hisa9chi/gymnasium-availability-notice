@@ -4,6 +4,7 @@ gem "selenium-webdriver", "~>3.142.7"
 gem "json", "~>2.5.1"
 gem "hashie", "~>4.1.0"
 gem "line_notify", "~>1.0.1"
+gem "holiday_jp"
 
 group :development do
   gem "ruby-debug-ide", "~>0.7.2"
