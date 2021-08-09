@@ -48,7 +48,7 @@ module Lib
       # 対象の体育館をチェックする
       def check_gym( top_menu_page )
         available_gym_list = []
-        gym_list = @config.gym.all_day.concat( @config.gym.day_off )
+        gym_list = @config.gym.all_day + @config.gym.day_off
 
         gym_list.each do |gym|
           printf( "[%s]\n",  gym )

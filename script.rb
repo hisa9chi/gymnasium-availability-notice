@@ -16,7 +16,7 @@ elsif
 end  
 
 driver = Selenium::WebDriver.for( :chrome, options: options )
-wait = Selenium::WebDriver::Wait.new( :timeout => 1 )
+wait = Selenium::WebDriver::Wait.new( :timeout => 5 )
 
 # 川崎
 kawasaki_conf = Hashie::Mash.load( 'config/kawasaki.yml' ).merge( cmn_conf )
