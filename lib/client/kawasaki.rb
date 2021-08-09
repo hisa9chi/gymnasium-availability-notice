@@ -21,10 +21,10 @@ module Lib
         puts "#- 川崎 ---------------"
         # ログイン
         top_menu_page = login
+        # 全日程の空き状況のチェック
         available_gym_list = check_gym( top_menu_page )
         
         unless available_gym_list.empty?
-          # 全日程の空き状況のチェック
           kawasaki_gyms = {"gyms" => available_gym_list}
           # ファイル出力
           Util::Output.json_file( "kawasaki", kawasaki_gyms )
