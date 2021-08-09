@@ -22,14 +22,16 @@ module Lib
         # ログイン
         top_menu_page = login
         available_gym_list = check_gym( top_menu_page )
-
+        
         unless available_gym_list.empty?
+          # 全日程の空き状況のチェック
           kawasaki_gyms = {"gyms" => available_gym_list}
-
           # ファイル出力
           Util::Output.json_file( "kawasaki", kawasaki_gyms )
+          puts "##- 通知対象チェック ----"
           #体育館毎に予約対象の日付と時間帯のみ選別
           checked_kawasaki_gyms = check_gym_type( kawasaki_gyms )
+          puts "##--------------------"
           # LINE 通知　※通知対象がなければ通知しない
           Util::Notify.send_line( @config.line_notify_token, "川崎", checked_kawasaki_gyms ) unless checked_kawasaki_gyms.nil?
         end
@@ -140,6 +142,7 @@ module Lib
       def check_gym_type( gym_available_list )
         checked_gyms = []
         gym_available_list['gyms'].each do |gym|
+          printf( "[%s]\n",  gym['name'] )
           # 体育館毎の処理
           checked_floors = []
           gym['floors'].each do |floor|
@@ -150,11 +153,15 @@ module Lib
               day = available['day']
               if Util::DayUtil.check_jp_holiday_and_day_off( day )
                 # 土日祝日　※全日程が通知対象
+                puts "- #{floor['name']}:#{available}: day_off"
                 checked_availables.push( {"day" => day, "classes" => available['classes']} )
               else
                 # 平日　※夜間のみ通知対象
                 if @config.gym.all_day.include?( gym['name'] ) && available['classes'].include?( '夜間' )
-                  checked_availables.push( {"day" => day, "classes"=>[ "夜間"]} )
+                  puts " - #{floor['name']}:#{available}: all_day"
+                  checked_availables.push( {"day" => day, "classes"=>[ "夜間" ]} )
+                else
+                  puts " - #{floor['name']}:#{available}: not notify"
                 end
               end
             end
