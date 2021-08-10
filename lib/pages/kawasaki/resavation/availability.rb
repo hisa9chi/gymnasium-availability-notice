@@ -13,7 +13,7 @@ module Pages
             if element.attribute( 'type' ) == 'button'
               puts element.attribute( 'type' )
               if element.attribute( 'value' ) == 'もどる'
-                element.attribute( 'value' )
+                puts element.attribute( 'value' )
                 return element
               end
             end
