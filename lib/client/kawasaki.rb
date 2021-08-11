@@ -146,6 +146,7 @@ module Lib
           # 体育館毎の処理
           checked_floors = []
           gym['floors'].each do |floor|
+            puts "- #{floor['name']}"
             # 体育館のフロア毎の処理
             checked_availables = []
             floor['availables'].each do |available|
@@ -153,15 +154,15 @@ module Lib
               day = available['day']
               if Util::DayUtil.check_jp_holiday_and_day_off( day )
                 # 土日祝日　※全日程が通知対象
-                puts "- #{floor['name']}:#{available}: day_off"
+                puts "   #{available}: day_off"
                 checked_availables.push( {"day" => day, "classes" => available['classes']} )
               else
                 # 平日　※夜間のみ通知対象
                 if @config.gym.all_day.include?( gym['name'] ) && available['classes'].include?( '夜間' )
-                  puts " - #{floor['name']}:#{available}: all_day"
+                  puts "   #{available}: all_day"
                   checked_availables.push( {"day" => day, "classes"=>[ "夜間" ]} )
                 else
-                  puts " - #{floor['name']}:#{available}: not notify"
+                  puts "   #{available}: not notify"
                 end
               end
             end
