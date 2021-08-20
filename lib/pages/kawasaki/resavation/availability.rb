@@ -9,11 +9,8 @@ module Pages
         def get_return_button_element
           element_list = find_elements_by_xpath( '//*[@id="rsvaki10"]/input' )
           element_list.each do |element|
-            puts element
             if element.attribute( 'type' ) == 'button'
-              puts element.attribute( 'type' )
               if element.attribute( 'value' ) == 'もどる'
-                puts element.attribute( 'value' )
                 return element
               end
             end
