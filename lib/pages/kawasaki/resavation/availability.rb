@@ -8,7 +8,9 @@ module Pages
         # "もどる"ボタン
         def get_return_button_element
           element_list = find_elements_by_xpath( '//*[@id="rsvaki10"]/input' )
+          printf( " > elements: %d\n", element_list.length )
           element_list.each do |element|
+            printf( "  >> type = %s / value = %s \n", element.attribute( 'type' ), element.attribute( 'value' ) )
             if element.attribute( 'type' ) == 'button'
               if element.attribute( 'value' ) == 'もどる'
                 return element
