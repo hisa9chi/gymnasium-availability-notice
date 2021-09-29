@@ -112,10 +112,9 @@ module Pages
         # 日付の要素を取得
         def get_day_element( day )
           element_list = find_elements_by_xpath( '//*[@id="rsvmonth3"]/table/tbody/tr[*]/td' )
-          printf( "      > elements: %d\n", element_list.length )
           element_list.each do |element|
             if element.text.match( day )
-              printf( "      > day: %d\n", element.text )
+              printf( "      > day: %s\n", element.text )
               return element
             end
           end
