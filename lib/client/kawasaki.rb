@@ -28,7 +28,7 @@ module Lib
           kawasaki_gyms = {"gyms" => available_gym_list}
           # ファイル出力
           Util::Output.json_file( "kawasaki", kawasaki_gyms )
-          puts "##- 通知対象チェック ----"
+          puts "\n##- 通知対象チェック ----"
           #体育館毎に予約対象の日付と時間帯のみ選別
           checked_kawasaki_gyms = check_gym_type( kawasaki_gyms )
           puts "##--------------------"
@@ -95,6 +95,7 @@ module Lib
           year_month = rsv_calender.get_year_month
           available_days_list = rsv_calender.get_available_days
           
+          printf( "   %s\t: 空き日数: %d\n", year_month, available_days_list.length ) 
           available_days_list.each do |day|
             date = Date.strptime( "#{year_month}#{day}", '%Y年%m月%d日' )
             rsv_availability = rsv_calender.click_day( day )
@@ -146,7 +147,7 @@ module Lib
           # 体育館毎の処理
           checked_floors = []
           gym['floors'].each do |floor|
-            puts "- #{floor['name']}"
+            puts " - #{floor['name']}"
             # 体育館のフロア毎の処理
             checked_availables = []
             floor['availables'].each do |available|
