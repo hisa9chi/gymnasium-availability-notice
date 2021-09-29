@@ -115,6 +115,7 @@ module Pages
           printf( "      > elements: %d\n", element_list.length )
           element_list.each do |element|
             if element.text.match( day )
+              printf( "      > day: %d\n", element.text )
               return element
             end
           end
