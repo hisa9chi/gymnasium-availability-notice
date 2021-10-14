@@ -101,7 +101,7 @@ module Pages
           element_list.each do |element|
             if element.text.match( /\d+日/ )
               state = element.find_element( :tag_name, 'img' ).attribute( 'alt' )
-              if state == "全て空き" || state == "#{year_month}#{element.text}一部空き"
+              if state.end_with?( "空き" )
                 available_day_list.push( element.text )
               end
             end
