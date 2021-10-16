@@ -30,6 +30,7 @@ module Pages
             if element_list.length > 0
               break
             end
+            printf( "       >> リトライ\n" )
             sleep retry_sleep
           end
 
