@@ -30,6 +30,7 @@ module Pages
             if element_list.length > 0
               break
             end
+            @driver.save_screenshot("./result/test#{i}.png")
             printf( "       >> リトライ\n" )
             sleep retry_sleep
           end
