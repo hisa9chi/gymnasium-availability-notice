@@ -151,7 +151,9 @@ module Pages
         end
 
         def click_day( day )
+          @driver.save_screenshot("./result/day_click_0.png")
           get_day_element( day ).click
+          @driver.save_screenshot("./result/day_click_1.png")
           Pages::Kawasaki::Reservation::Availability.new( @driver, @wait )
         end
 
