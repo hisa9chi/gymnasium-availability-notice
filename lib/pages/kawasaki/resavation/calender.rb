@@ -114,7 +114,6 @@ module Pages
           element_list = find_elements_by_xpath( '//*[@id="rsvmonth3"]/table/tbody/tr[*]/td' )
           element_list.each do |element|
             if element.text.match( day )
-              printf( "      > day: %s\n", element.text )
               return element
             end
           end
@@ -151,9 +150,7 @@ module Pages
         end
 
         def click_day( day )
-          @driver.save_screenshot("./result/day_click_0.png")
           get_day_element( day ).click
-          @driver.save_screenshot("./result/day_click_1.png")
           Pages::Kawasaki::Reservation::Availability.new( @driver, @wait )
         end
 
