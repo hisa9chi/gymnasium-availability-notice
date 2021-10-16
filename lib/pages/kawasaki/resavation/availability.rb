@@ -22,7 +22,16 @@ module Pages
         # 空き状況詳細の区分を取得
         def get_available_class
           available_class_list = []
-          element_list = find_elements_by_xpath( '//*[@id="rsvaki3"]/table/tbody/tr' )
+          element_list = 0
+          retry_cnt = 3
+          retry_sleep = 2   # sec
+          retry_cnt.times do |i|
+            element_list = find_elements_by_xpath( '//*[@id="rsvaki3"]/table/tbody/tr' )
+            if element_list.length > 0
+              break
+            end
+            sleep retry_sleep
+          end
 
           printf( "       >> ヘッダ数：%d\n", element_list.length )
           element_list.each do |element|
