@@ -8,11 +8,10 @@ cmn_conf = Hashie::Mash.load( 'config/common.yml' )
 
 # headless option
 options = Selenium::WebDriver::Chrome::Options.new
+options.add_argument( 'window-size=1024,1024' )  
 if "#{cmn_conf.headless_on}" =~ /(true|True|TRUE)/
   options.add_argument( '--headless' )
   options.add_argument( '--no-sandbox' )
-elsif 
-  options.add_argument( 'window-size=1024,1024' )  
 end  
 
 driver = Selenium::WebDriver.for( :chrome, options: options )
