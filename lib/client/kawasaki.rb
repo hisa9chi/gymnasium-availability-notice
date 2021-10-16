@@ -101,7 +101,6 @@ module Lib
             rsv_availability = rsv_calender.click_day( day )
 
             classes = rsv_availability.get_available_class
-            printf( "    classs: %s\n", classes ) 
             unless classes.empty?
               item = { "day" => date.strftime( "%Y-%m-%d" ), "classes" => classes }
               printf( "    %s\n", item )
