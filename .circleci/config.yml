@@ -31,3 +31,6 @@ workflows:
                 - main
     jobs:
       - check_gyms
+   push_check_job:
+    jobs:
+      - check_gyms
